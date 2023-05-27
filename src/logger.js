@@ -121,6 +121,12 @@
         logHandler(msgArgs, merge({ level: level }, this.context));
       }
     },
+
+    invokeCb: function (level, msgArgs) {
+      if (logHandler && this.enabledFor(level)) {
+        logHandler(msgArgs(), merge({ level: level }, this.context));
+      }
+    },
   };
 
   // Protected instance which all calls to the to level `Logger` module will be routed through.
