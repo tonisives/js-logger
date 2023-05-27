@@ -118,13 +118,8 @@
     // Invokes the logger callback if it's not being filtered.
     invoke: function (level, msgArgs) {
       if (logHandler && this.enabledFor(level)) {
-        logHandler(msgArgs[0](), merge({ level: level }, this.context));
-      }
-    },
-
-    invokeCb: function (level, msgArgs) {
-      if (logHandler && this.enabledFor(level)) {
-        logHandler(msgArgs(), merge({ level: level }, this.context));
+        let log = msgArgs[0]();
+        logHandler([log], merge({ level: level }, this.context));
       }
     },
   };
