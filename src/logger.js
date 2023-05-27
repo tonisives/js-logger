@@ -259,7 +259,7 @@
         } else if (context.level === Logger.DEBUG && console.debug) {
           hdlr = console.debug;
         } else if (context.level === Logger.TRACE && console.trace) {
-          hdlr = console.trace;
+          hdlr = console.debug;
         }
 
         options.formatter(messages, context);
