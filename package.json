@@ -1,6 +1,6 @@
 {
-  "name": "js-logger",
-  "version": "1.6.1",
+  "name": "jst-logger",
+  "version": "1.6.2",
   "license": "MIT",
   "description": "Lightweight, unobtrusive, configurable JavaScript logger",
   "author": "Jonny Reeves (http://jonnyreeves.co.uk)",

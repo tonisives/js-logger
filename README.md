@@ -1,3 +1,11 @@
+# jst-logger
+
+This is a fork of js-logger. It is a fork of the original js-logger with the following changes:
+
+- allows both function call logging and string logging
+- If you call with function, eg `Logger.info(() => "hello")`, then it will be lazyly evaluated
+
+
 # js-Logger [![Build Status](https://travis-ci.org/jonnyreeves/js-logger.svg?branch=master)](https://travis-ci.org/jonnyreeves/js-logger) [![npm version](https://badge.fury.io/js/js-logger.svg)](http://badge.fury.io/js/js-logger) ![npm dependencies](https://david-dm.org/jonnyreeves/js-logger.png)
 
 > Lightweight, unobtrusive, configurable JavaScript logger.

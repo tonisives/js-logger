@@ -118,7 +118,12 @@
     // Invokes the logger callback if it's not being filtered.
     invoke: function (level, msgArgs) {
       if (logHandler && this.enabledFor(level)) {
-        let log = msgArgs[0]();
+        let log;
+        if (typeof msgArgs[0] === "function") {
+          log = msgArgs[0]();
+        } else {
+          log = msgArgs[0];
+        }
         logHandler([log], merge({ level: level }, this.context));
       }
     },
