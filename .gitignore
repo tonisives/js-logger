@@ -1,5 +1,4 @@
 # artefacts
-dist/
 build/
 
 # IDE junk
@@ -12,3 +11,4 @@ build/
 node_modules
 npm-debug.log
 .yarn
+yarn.lock
