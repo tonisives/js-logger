@@ -41,6 +41,7 @@ let logFun = (level, msg) => {
     else {
         log = msg;
     }
+    log = log.length > 1000 ? `${log.slice(0, 600)}\n[...]\n${log.slice(-400)}` : log;
     let hdlr = console.log;
     if (level === LogLevel.WARN && console.warn) {
         hdlr = console.warn;
