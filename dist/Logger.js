@@ -9,11 +9,15 @@ export var LogLevel;
 })(LogLevel || (LogLevel = {}));
 export let Logger = {
     level: LogLevel.DEBUG,
+    config: { truncate: 2000 },
     enabledFor: (lvl) => {
         return lvl >= Logger.level;
     },
     setLevel: (level) => {
         Logger.level = level;
+    },
+    setConfig: (config) => {
+        Logger.config = { ...Logger.config, ...config };
     },
     info: (msg) => {
         logFun(LogLevel.INFO, msg);
@@ -41,7 +45,7 @@ let logFun = (level, msg) => {
     else {
         log = msg;
     }
-    log = log.length > 1000 ? `${log.slice(0, 600)}\n[...]\n${log.slice(-400)}` : log;
+    log = truncate(log);
     let hdlr = console.log;
     if (level === LogLevel.WARN && console.warn) {
         hdlr = console.warn;
@@ -52,10 +56,17 @@ let logFun = (level, msg) => {
     else if (level === LogLevel.INFO && console.info) {
         hdlr = console.info;
     }
-    else if ((level === LogLevel.DEBUG || level === LogLevel.TRACE) &&
-        console.debug) {
+    else if ((level === LogLevel.DEBUG || level === LogLevel.TRACE) && console.debug) {
         hdlr = console.debug;
     }
     hdlr.call(console, log);
 };
+function truncate(log) {
+    if (Logger.config.truncate && log.length > Logger.config.truncate) {
+        let top = Math.floor(Logger.config.truncate * 0.65);
+        let bottom = Math.floor(Logger.config.truncate * 0.35);
+        log = `${log.slice(0, top)}\n[...]\n${log.slice(-bottom)}`;
+    }
+    return log;
+}
 //# sourceMappingURL=Logger.js.map
