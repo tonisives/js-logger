@@ -61,12 +61,12 @@ let logFun = (level, msg) => {
     }
     hdlr.call(console, log);
 };
-function truncate(log) {
-    if (Logger.config.truncate && log.length > Logger.config.truncate) {
+const truncate = (log) => {
+    if (Logger.config.truncate && Logger.config.truncate > 0 && log.length > Logger.config.truncate) {
         let top = Math.floor(Logger.config.truncate * 0.65);
         let bottom = Math.floor(Logger.config.truncate * 0.35);
         log = `${log.slice(0, top)}\n[...]\n${log.slice(-bottom)}`;
     }
     return log;
-}
+};
 //# sourceMappingURL=Logger.js.map

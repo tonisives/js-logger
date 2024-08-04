@@ -9,7 +9,7 @@ export enum LogLevel {
 
 type Input = string | (() => string)
 type Config = {
-  // default 2000
+  // default 2000. Set to 0/-1 to disable truncation
   truncate?: number
 }
 
@@ -69,8 +69,8 @@ let logFun = (level: LogLevel, msg: Input) => {
   hdlr.call(console, log)
 }
 
-function truncate(log: string) {
-  if (Logger.config.truncate && log.length > Logger.config.truncate) {
+const truncate = (log: string) => {
+  if (Logger.config.truncate && Logger.config.truncate > 0 && log.length > Logger.config.truncate) {
     let top = Math.floor(Logger.config.truncate * 0.65)
     let bottom = Math.floor(Logger.config.truncate * 0.35)
     log = `${log.slice(0, top)}\n[...]\n${log.slice(-bottom)}`
