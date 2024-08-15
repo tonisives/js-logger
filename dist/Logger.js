@@ -9,7 +9,7 @@ export var LogLevel;
 })(LogLevel || (LogLevel = {}));
 export let Logger = {
     level: LogLevel.DEBUG,
-    config: { truncate: 2000 },
+    config: { truncate: 10000 },
     enabledFor: (lvl) => {
         return lvl >= Logger.level;
     },

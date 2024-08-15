@@ -9,13 +9,12 @@ export enum LogLevel {
 
 type Input = string | (() => string)
 type Config = {
-  // default 2000. Set to 0/-1 to disable truncation
   truncate?: number
 }
 
 export let Logger = {
   level: LogLevel.DEBUG,
-  config: { truncate: 2000 },
+  config: { truncate: 10_000 },
   enabledFor: (lvl: LogLevel) => {
     return lvl >= Logger.level
   },
