@@ -15,8 +15,11 @@ it("should log", () => {
 it("logs errors", () => {
   vi.spyOn(console, "error").mockImplementation(() => {})
 
-  Logger.error(() => new Error("msg 1"))
+  Logger.errorL(() => new Error("msg 1"))
   Logger.error("msg 2")
+
+  let returnType = Logger.error(new Error("msg 3"))
+  let returnType2 = Logger.errorL(() => new Error("msg 4"))
 
   expect(console.error).toHaveBeenCalledWith("msg 1")
   expect(console.error).toHaveBeenCalledWith("msg 2")

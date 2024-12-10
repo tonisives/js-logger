@@ -7,8 +7,9 @@ export enum LogLevel {
   OFF,
 }
 
-type Input = string | (() => string)
-type ErrorInput = string | (() => string) | Error | (() => Error)
+type Input = string | Error
+type LazyInput<T extends Input> = () => T
+
 type Config = {
   truncate?: number
 }
@@ -31,9 +32,8 @@ export let Logger = {
   warn: (msg: Input) => {
     logFun(LogLevel.WARN, msg)
   },
-  error: (msg: ErrorInput) => {
-    logFun(LogLevel.ERROR, msg)
-  },
+  error: (msg: Input) => logFun(LogLevel.ERROR, msg),
+  errorL: (msg: LazyInput<Input>) => logFunLazy(LogLevel.ERROR, msg),
   debug: (msg: Input) => {
     logFun(LogLevel.DEBUG, msg)
   },
@@ -42,18 +42,25 @@ export let Logger = {
   },
 }
 
-let logFun = (level: LogLevel, msg: Input | ErrorInput) => {
+let logFunLazy = <T extends Input>(level: LogLevel, msg: LazyInput<T>): T | undefined => {
   if (!Logger.enabledFor(level)) return
 
-  let log
+  return logFun(level, msg)
+}
+
+let logFun = <T extends Input>(level: LogLevel, msg: T | LazyInput<T>): T => {
+  let obj: T
+  let log: string
   if (typeof msg === "function") {
-    log = msg()
+    obj = msg()
   } else {
-    log = msg
+    obj = msg
   }
 
-  if (log instanceof Error) {
-    log = log.message
+  if (obj instanceof Error) {
+    log = obj.message
+  } else {
+    log = obj
   }
 
   log = truncate(log)
@@ -71,6 +78,8 @@ let logFun = (level: LogLevel, msg: Input | ErrorInput) => {
   }
 
   hdlr.call(console, log)
+
+  return obj
 }
 
 const truncate = (log: string) => {

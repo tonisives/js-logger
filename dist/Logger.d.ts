@@ -6,8 +6,8 @@ export declare enum LogLevel {
     ERROR = 4,
     OFF = 5
 }
-type Input = string | (() => string);
-type ErrorInput = string | (() => string) | Error | (() => Error);
+type Input = string | Error;
+type LazyInput<T extends Input> = () => T;
 type Config = {
     truncate?: number;
 };
@@ -21,7 +21,8 @@ export declare let Logger: {
     setConfig: (config: Config) => void;
     info: (msg: Input) => void;
     warn: (msg: Input) => void;
-    error: (msg: ErrorInput) => void;
+    error: (msg: Input) => string | Error;
+    errorL: (msg: LazyInput<Input>) => Input | undefined;
     debug: (msg: Input) => void;
     trace: (msg: Input) => void;
 };

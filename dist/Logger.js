@@ -25,9 +25,8 @@ export let Logger = {
     warn: (msg) => {
         logFun(LogLevel.WARN, msg);
     },
-    error: (msg) => {
-        logFun(LogLevel.ERROR, msg);
-    },
+    error: (msg) => logFun(LogLevel.ERROR, msg),
+    errorL: (msg) => logFunLazy(LogLevel.ERROR, msg),
     debug: (msg) => {
         logFun(LogLevel.DEBUG, msg);
     },
@@ -35,18 +34,25 @@ export let Logger = {
         logFun(LogLevel.TRACE, msg);
     },
 };
-let logFun = (level, msg) => {
+let logFunLazy = (level, msg) => {
     if (!Logger.enabledFor(level))
         return;
+    return logFun(level, msg);
+};
+let logFun = (level, msg) => {
+    let obj;
     let log;
     if (typeof msg === "function") {
-        log = msg();
+        obj = msg();
     }
     else {
-        log = msg;
+        obj = msg;
     }
-    if (log instanceof Error) {
-        log = log.message;
+    if (obj instanceof Error) {
+        log = obj.message;
+    }
+    else {
+        log = obj;
     }
     log = truncate(log);
     let hdlr = console.log;
@@ -63,6 +69,7 @@ let logFun = (level, msg) => {
         hdlr = console.debug;
     }
     hdlr.call(console, log);
+    return obj;
 };
 const truncate = (log) => {
     if (Logger.config.truncate && Logger.config.truncate > 0 && log.length > Logger.config.truncate) {
