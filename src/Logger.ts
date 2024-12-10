@@ -8,7 +8,8 @@ export enum LogLevel {
 }
 
 type Input = string | Error
-type LazyInput<T extends Input> = () => T
+type InputGen<T extends Input> = T
+type LazyInput<T extends InputGen<any>> = () => T
 
 type Config = {
   truncate?: number
@@ -26,20 +27,16 @@ export let Logger = {
   setConfig: (config: Config) => {
     Logger.config = { ...Logger.config, ...config }
   },
-  info: (msg: Input) => {
-    logFun(LogLevel.INFO, msg)
-  },
-  warn: (msg: Input) => {
-    logFun(LogLevel.WARN, msg)
-  },
-  error: (msg: Input) => logFun(LogLevel.ERROR, msg),
-  errorL: (msg: LazyInput<Input>) => logFunLazy(LogLevel.ERROR, msg),
-  debug: (msg: Input) => {
-    logFun(LogLevel.DEBUG, msg)
-  },
-  trace: (msg: Input) => {
-    logFun(LogLevel.TRACE, msg)
-  },
+  info: <T extends Input>(msg: T) => logFun(LogLevel.INFO, msg),
+  infoL: <T extends Input>(msg: LazyInput<T>) => logFunLazy(LogLevel.INFO, msg),
+  warn: <T extends Input>(msg: T) => logFun(LogLevel.WARN, msg),
+  warnL: <T extends Input>(msg: LazyInput<T>) => logFunLazy(LogLevel.WARN, msg),
+  error: <T extends Input>(msg: T) => logFun(LogLevel.ERROR, msg),
+  errorL: <T extends Input>(msg: LazyInput<T>) => logFunLazy(LogLevel.ERROR, msg),
+  debug: <T extends Input>(msg: T) => logFun(LogLevel.DEBUG, msg),
+  debugL: <T extends Input>(msg: LazyInput<T>) => logFunLazy(LogLevel.DEBUG, msg),
+  trace: <T extends Input>(msg: T) => logFun(LogLevel.TRACE, msg),
+  traceL: <T extends Input>(msg: LazyInput<T>) => logFunLazy(LogLevel.TRACE, msg),
 }
 
 let logFunLazy = <T extends Input>(level: LogLevel, msg: LazyInput<T>): T | undefined => {

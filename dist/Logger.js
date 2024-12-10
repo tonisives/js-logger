@@ -19,20 +19,16 @@ export let Logger = {
     setConfig: (config) => {
         Logger.config = { ...Logger.config, ...config };
     },
-    info: (msg) => {
-        logFun(LogLevel.INFO, msg);
-    },
-    warn: (msg) => {
-        logFun(LogLevel.WARN, msg);
-    },
+    info: (msg) => logFun(LogLevel.INFO, msg),
+    infoL: (msg) => logFunLazy(LogLevel.INFO, msg),
+    warn: (msg) => logFun(LogLevel.WARN, msg),
+    warnL: (msg) => logFunLazy(LogLevel.WARN, msg),
     error: (msg) => logFun(LogLevel.ERROR, msg),
     errorL: (msg) => logFunLazy(LogLevel.ERROR, msg),
-    debug: (msg) => {
-        logFun(LogLevel.DEBUG, msg);
-    },
-    trace: (msg) => {
-        logFun(LogLevel.TRACE, msg);
-    },
+    debug: (msg) => logFun(LogLevel.DEBUG, msg),
+    debugL: (msg) => logFunLazy(LogLevel.DEBUG, msg),
+    trace: (msg) => logFun(LogLevel.TRACE, msg),
+    traceL: (msg) => logFunLazy(LogLevel.TRACE, msg),
 };
 let logFunLazy = (level, msg) => {
     if (!Logger.enabledFor(level))
