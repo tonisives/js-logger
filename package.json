@@ -1,8 +1,23 @@
 {
   "name": "jst-logger",
-  "version": "0",
+  "version": "1.1.0",
+  "description": "A simple logger for Node.js",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tonisives/jst-logger"
+  },
+  "keywords": [
+    "logger",
+    "nodejs",
+    "lazy",
+    "esm",
+    "module"
+  ],
+  "author": {
+    "name": "Tonis Tiganik"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",

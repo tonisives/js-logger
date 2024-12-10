@@ -1,6 +1,5 @@
 # jst-logger
 
-
 ## install
 yarn add 'jst-logger@tonisives/jst-logger'
 
@@ -22,4 +21,12 @@ import { Logger } from "jst-logger"
 
 Logger.info(() => `Logging level ${Logger.level}`)
 Logger.info(`can also use normal string`)
+```
+
+
+### Release to npm
+
+```
+npm run build
+npm publish
 ```

@@ -7,6 +7,7 @@ export declare enum LogLevel {
     OFF = 5
 }
 type Input = string | (() => string);
+type ErrorInput = string | (() => string) | Error | (() => Error);
 type Config = {
     truncate?: number;
 };
@@ -20,7 +21,7 @@ export declare let Logger: {
     setConfig: (config: Config) => void;
     info: (msg: Input) => void;
     warn: (msg: Input) => void;
-    error: (msg: Input) => void;
+    error: (msg: ErrorInput) => void;
     debug: (msg: Input) => void;
     trace: (msg: Input) => void;
 };

@@ -45,6 +45,9 @@ let logFun = (level, msg) => {
     else {
         log = msg;
     }
+    if (log instanceof Error) {
+        log = log.message;
+    }
     log = truncate(log);
     let hdlr = console.log;
     if (level === LogLevel.WARN && console.warn) {

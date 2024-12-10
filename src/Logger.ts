@@ -8,6 +8,7 @@ export enum LogLevel {
 }
 
 type Input = string | (() => string)
+type ErrorInput = string | (() => string) | Error | (() => Error)
 type Config = {
   truncate?: number
 }
@@ -30,7 +31,7 @@ export let Logger = {
   warn: (msg: Input) => {
     logFun(LogLevel.WARN, msg)
   },
-  error: (msg: Input) => {
+  error: (msg: ErrorInput) => {
     logFun(LogLevel.ERROR, msg)
   },
   debug: (msg: Input) => {
@@ -41,7 +42,7 @@ export let Logger = {
   },
 }
 
-let logFun = (level: LogLevel, msg: Input) => {
+let logFun = (level: LogLevel, msg: Input | ErrorInput) => {
   if (!Logger.enabledFor(level)) return
 
   let log
@@ -49,6 +50,10 @@ let logFun = (level: LogLevel, msg: Input) => {
     log = msg()
   } else {
     log = msg
+  }
+
+  if (log instanceof Error) {
+    log = log.message
   }
 
   log = truncate(log)

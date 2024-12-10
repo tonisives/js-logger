@@ -11,3 +11,13 @@ it("should log", () => {
   expect(console.info).toHaveBeenCalledWith("msg 1")
   expect(console.info).toHaveBeenCalledWith("msg 2")
 })
+
+it("logs errors", () => {
+  vi.spyOn(console, "error").mockImplementation(() => {})
+
+  Logger.error(() => new Error("msg 1"))
+  Logger.error("msg 2")
+
+  expect(console.error).toHaveBeenCalledWith("msg 1")
+  expect(console.error).toHaveBeenCalledWith("msg 2")
+})
