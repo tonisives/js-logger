@@ -2,6 +2,7 @@ import { Logger } from "./Logger.js"
 import { expect, it, vi } from "vitest"
 
 it("should log", () => {
+  Logger.config.withTimestamp = false
   // spy
   vi.spyOn(console, "info").mockImplementation(() => {})
 
@@ -13,6 +14,7 @@ it("should log", () => {
 })
 
 it("logs errors", () => {
+  Logger.config.withTimestamp = false
   vi.spyOn(console, "error").mockImplementation(() => {})
 
   Logger.errorL(() => new Error("msg 1"))

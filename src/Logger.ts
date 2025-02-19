@@ -13,11 +13,12 @@ type LazyInput<T extends InputGen<any>> = () => T
 
 type Config = {
   truncate?: number
+  withTimestamp?: boolean
 }
 
 export let Logger = {
   level: LogLevel.DEBUG,
-  config: { truncate: 10_000 },
+  config: { truncate: 10_000, withTimestamp: true },
   enabledFor: (lvl: LogLevel) => {
     return lvl >= Logger.level
   },
@@ -72,6 +73,10 @@ let logFun = <T extends Input>(level: LogLevel, msg: T | LazyInput<T>): T => {
     hdlr = console.info
   } else if ((level === LogLevel.DEBUG || level === LogLevel.TRACE) && console.debug) {
     hdlr = console.debug
+  }
+
+  if (Logger.config.withTimestamp) {
+    log = `[${new Date().toISOString()}] ${log}`
   }
 
   hdlr.call(console, log)

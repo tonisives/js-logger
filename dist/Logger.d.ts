@@ -11,11 +11,13 @@ type InputGen<T extends Input> = T;
 type LazyInput<T extends InputGen<any>> = () => T;
 type Config = {
     truncate?: number;
+    withTimestamp?: boolean;
 };
 export declare let Logger: {
     level: LogLevel;
     config: {
         truncate: number;
+        withTimestamp: boolean;
     };
     enabledFor: (lvl: LogLevel) => boolean;
     setLevel: (level: LogLevel) => void;

@@ -9,7 +9,7 @@ export var LogLevel;
 })(LogLevel || (LogLevel = {}));
 export let Logger = {
     level: LogLevel.DEBUG,
-    config: { truncate: 10000 },
+    config: { truncate: 10000, withTimestamp: true },
     enabledFor: (lvl) => {
         return lvl >= Logger.level;
     },
@@ -63,6 +63,9 @@ let logFun = (level, msg) => {
     }
     else if ((level === LogLevel.DEBUG || level === LogLevel.TRACE) && console.debug) {
         hdlr = console.debug;
+    }
+    if (Logger.config.withTimestamp) {
+        log = `[${new Date().toISOString()}] ${log}`;
     }
     hdlr.call(console, log);
     return obj;
